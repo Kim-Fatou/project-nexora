@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexora - Matching Compagnon Virtuel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/splash.css">
+  <link rel="stylesheet" href="/css/matching.css">
+</head>
+<body>
+  <header class="header" id="header">
+    <div class="header-container">
+      <a href="/pages/ecran-demarrage.html" class="logo">
+        <div class="logo-icon">
+          <img src="/Images/lg.jpeg" alt="Nexora">
+        </div>
+        <img src="" alt=""><span class="logo-text">Nexora</span>
+      </a>
+
+      <nav class="nav-desktop">
+        <a href="/pages/ecran-demarrage.html#features" class="nav-link">Fonctionnalités</a>
+        <a href="/pages/ecran-demarrage.html#about" class="nav-link">À propos</a>
+        <a href="/pages/ecran-demarrage.html#community" class="nav-link">Communauté</a>
+        <a href="/pages/ecran-demarrage.html#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="/pages/ecran-demarrage.html" class="btn-ghost">Connexion</a>
+        <a href="/pages/integration1.html" class="btn-primary">Rejoindre</a>
+      </div>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+        <span class="menu-icon"></span>
+      </button>
+    </div>
+
+    <nav class="nav-mobile" id="mobileMenu">
+      <a href="/pages/ecran-demarrage.html#features" class="nav-link-mobile">Fonctionnalités</a>
+      <a href="/pages/ecran-demarrage.html#about" class="nav-link-mobile">À propos</a>
+      <a href="/pages/ecran-demarrage.html#community" class="nav-link-mobile">Communauté</a>
+      <a href="/pages/ecran-demarrage.html#contact" class="nav-link-mobile">Contact</a>
+      <div class="mobile-actions">
+        <a href="/pages/ecran-demarrage.html" class="btn-ghost-mobile">Connexion</a>
+        <a href="/pages/integration1.html" class="btn-primary-mobile">Rejoindre</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Particules animees -->
+  <div class="particles-container"></div>
+
+  <!-- Formes morphing en arriere-plan -->
+  <div class="morph-shape morph-1"></div>
+  <div class="morph-shape morph-2"></div>
+  <div class="morph-shape morph-3"></div>
+
+  <!-- Container principal -->
+  <div class="main-container">
+    
+    <!-- Section Compagnon -->
+    <section class="companion-section">
+      <div class="companion-avatar-wrapper">
+        <div class="companion-glow"></div>
+        <div class="orbit-ring orbit-ring-1">
+          <div class="orbit-dot"></div>
+        </div>
+        <div class="orbit-ring orbit-ring-2">
+          <div class="orbit-dot"></div>
+        </div>
+        <img src="/Images/cpv.jpeg" alt="Compagnon Nexora" class="companion-avatar">
+      </div>
+      <div class="companion-status">
+        <span class="status-dot"></span>
+        <span>Compagnon actif</span>
+      </div>
+    </section>
+
+    <!-- Zone de chat -->
+    <div class="chat-zone">
+      <div class="chat-messages" id="chatMessages">
+        <!-- Les messages seront ajoutes dynamiquement -->
+      </div>
+
+      <!-- Boutons centres d'interet -->
+      <div class="interests-container" id="interestsContainer" style="display: none;">
+        <!-- Generes par JS -->
+      </div>
+
+      <!-- Sous-choix -->
+      <div class="sub-choices-container" id="subChoicesContainer">
+        <!-- Generes par JS -->
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-accent"></div>
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo footer-logo">
+            <div class="logo-icon">
+              <img src="/Images/lg.jpeg" alt="Nexora">
+            </div>
+            <span class="logo-text">Nexora</span>
+          </a>
+          <p class="footer-tagline">
+            Connecte-toi avec des personnes qui partagent tes passions.
+          </p>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="Twitter">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+              </svg>
+            </a>
+            <a href="#" class="social-link" aria-label="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+              </svg>
+            </a>
+            <a href="#" class="social-link" aria-label="LinkedIn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect width="4" height="12" x="2" y="9"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4 class="footer-heading">Produit</h4>
+            <a href="#" class="footer-link">Fonctionnalités</a>
+            <a href="#" class="footer-link">Tarifs</a>
+            <a href="#" class="footer-link">FAQ</a>
+          </div>
+          <div class="footer-column">
+            <h4 class="footer-heading">Entreprise</h4>
+            <a href="#" class="footer-link">À propos</a>
+            <a href="#" class="footer-link">Blog</a>
+            <a href="#" class="footer-link">Carrières</a>
+          </div>
+          <div class="footer-column">
+            <h4 class="footer-heading">Légal</h4>
+            <a href="#" class="footer-link">Confidentialité</a>
+            <a href="#" class="footer-link">CGU</a>
+            <a href="#" class="footer-link">Cookies</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Nexora. Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Overlay resultat matching -->
+  <div class="match-result-overlay" id="matchResultOverlay">
+    <div class="match-result-card">
+      <button class="close-card-btn" onclick="closeMatchResult()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+
+      <div class="match-icon">🎉</div>
+      <h2 class="match-title">Match trouvé !</h2>
+      <p class="match-subtitle" id="matchSubtitle">passionné(e)s de Football</p>
+      <div class="match-count" id="matchCount">12</div>
+      <p class="match-description">personnes partagent cette passion près de chez toi</p>
+
+      <!-- Apercu des profils -->
+      <div class="match-profiles-preview">
+        <div class="profile-preview"><img src="/Images/cpv.jpeg" alt="Profil 1"></div>
+        <div class="profile-preview"><img src="/Images/cpv.jpeg" alt="Profil 2"></div>
+        <div class="profile-preview"><img src="/Images/cpv.jpeg" alt="Profil 3"></div>
+        <div class="profile-preview more">+9</div>
+      </div>
+
+      <button class="view-profiles-btn" onclick="viewProfiles()">
+        Voir les profils
+      </button>
+    </div>
+  </div>
+
+  <script src="/js/matching.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
