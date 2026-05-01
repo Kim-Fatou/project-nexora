@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexora - Choisis tes centres d'intérêt</title>
+  <meta name="description" content="Personnalise ton expérience Nexora en sélectionnant tes passions">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="{{ asset('css/splash.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/onboarding.css') }}">
+</head>
+<body>
+  <header class="header" id="header">
+    <div class="header-container">
+      <a href="/ecran-demarrage" class="logo">
+        <div class="logo-icon">
+          <img src="/Images/lg-removebg-preview.png" alt="">
+        </div>
+        <img src="" alt=""><span class="logo-text">Nexora</span>
+      </a>
+
+      <nav class="nav-desktop">
+        <a href="{{ route('ecran-demarrage') }}" class="nav-link">Accueil</a>
+        <a href="{{ route('ecran-demarrage') }}#features" class="nav-link">Fonctionnalités</a>
+        <a href="{{ route('apropos') }}" class="nav-link">À propos</a>
+        <a href="{{ route('ecran-demarrage') }}#community" class="nav-link">Communauté</a>
+        <a href="{{ route('contact') }}" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="/ecran-demarrage" class="btn-ghost">Connexion</a>
+        <a href="/integration1" class="btn-primary">Rejoindre</a>
+      </div>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+        <span class="menu-icon"></span>
+      </button>
+    </div>
+
+    <nav class="nav-mobile" id="mobileMenu">
+      <a href="{{ route('ecran-demarrage') }}" class="nav-link-mobile">Accueil</a>
+      <a href="{{ route('ecran-demarrage') }}#features" class="nav-link-mobile">Fonctionnalités</a>
+      <a href="{{ route('apropos') }}" class="nav-link-mobile">À propos</a>
+      <a href="{{ route('ecran-demarrage') }}#community" class="nav-link-mobile">Communauté</a>
+      <a href="{{ route('contact') }}" class="nav-link-mobile">Contact</a>
+      <div class="mobile-actions">
+        <a href="{{ route('ecran-demarrage') }}" class="btn-ghost-mobile">Connexion</a>
+        <a href="{{ route('integration1') }}" class="btn-primary-mobile">Rejoindre</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Background Shapes -->
+  <div class="bg-shape bg-shape-1"></div>
+  <div class="bg-shape bg-shape-2"></div>
+  <div class="bg-shape bg-shape-3"></div>
+
+  <div class="onboarding-container">
+    <div class="onboarding-card page-transition">
+      <!-- Progress -->
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 33.33%"></div>
+        </div>
+        <span class="progress-step">1/3</span>
+      </div>
+
+      <!-- Header -->
+      <div class="card-header">
+        <div class="card-icon animate-scale-in">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <h1 class="card-title animate-fade-in-up opacity-0">
+          Quelles sont tes <span class="gradient-text">passions</span> ?
+        </h1>
+        <p class="card-subtitle animate-fade-in-up opacity-0 delay-200">
+        Choisir tes centres d'intérêt pour avoir une expérience unique et des connexions authentiques.
+        </p>
+      </div>
+
+      <!-- Interests Grid -->
+      <div class="interests-grid">
+        <button class="interest-pill animate-scale-in opacity-0" data-interest="musique">
+          <span>🎵 Musique</span>
+        </button>
+        <button class="interest-pill animate-scale-in opacity-0" data-interest="cinema">
+          <span>🎬 Cinéma</span>
+        </button>
+        <button class="interest-pill animate-scale-in opacity-0" data-interest="sport">
+          <span>⚽ Sport</span>
+        </button>
+        <button class="interest-pill animate-scale-in opacity-0" data-interest="voyage">
+          <span>✈️ Voyage</span>
+        </button>
+        <button class="interest-pill animate-scale-in opacity-0" data-interest="gaming">
+          <span>🎮 Gaming</span>
+        </button>
+        <button class="interest-pill animate-scale-in opacity-0" data-interest="lecture">
+          <span>📚 Lecture</span>
+        </button>
+        <button class="interest-pill animate-scale-in opacity-0" data-interest="cuisine">
+          <span>🍳 Cuisine</span>
+        </button>
+        <button class="interest-pill animate-scale-in opacity-0" data-interest="art">
+          <span>🎨 Art</span>
+        </button>
+        <button class="interest-pill animate-scale-in opacity-0" data-interest="tech">
+          <span>💻 Tech</span>
+        </button>
+        <button class="interest-pill animate-scale-in opacity-0" data-interest="nature">
+          <span>🌿 Nature</span>
+        </button>
+        <button class="interest-pill animate-scale-in opacity-0" data-interest="photo">
+          <span>📸 Photo</span>
+        </button>
+        <button class="interest-pill animate-scale-in opacity-0" data-interest="mode">
+          <span>👗 Mode</span>
+        </button>
+        <button class="interest-pill animate-scale-in opacity-0" data-interest="fitness">
+          <span>💪 Fitness</span>
+        </button>
+        <button class="interest-pill animate-scale-in opacity-0" data-interest="danse">
+          <span>💃 Danse</span>
+        </button>
+        <button class="interest-pill animate-scale-in opacity-0" data-interest="meditation">
+          <span>🧘 Méditation</span>
+        </button>
+      </div>
+
+      <!-- Selection Counter -->
+      <div class="selection-counter animate-fade-in-up opacity-0 delay-600">
+        <span class="counter-badge"></span>
+        <span>Personnalisez votre expérience</span>
+      </div>
+ <a class="splash-action-primary" href="{{ route('integration2') }}">Voir la démo</a>
+      <!-- Continue Button -->
+      <a href="{{ route('integration2') }}" id="continueBtn" class="btn btn-primary btn-block animate-fade-in-up opacity-0 delay-700">
+        <span>Continuer</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-accent"></div>
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo footer-logo">
+            <div class="logo-icon">
+              <img src="/Images/lg-removebg-preview.png" alt="">
+            </div>
+            <img src="" alt=""><span class="logo-text">Nexora</span>
+          </a>
+          <p class="footer-tagline">
+            Connecte-toi avec des personnes qui partagent tes passions.
+          </p>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="Twitter">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+              </svg>
+            </a>
+            <a href="#" class="social-link" aria-label="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+              </svg>
+            </a>
+            <a href="#" class="social-link" aria-label="LinkedIn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect width="4" height="12" x="2" y="9"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4 class="footer-heading">Produit</h4>
+            <a href="#" class="footer-link">Fonctionnalités</a>
+            <a href="#" class="footer-link">Tarifs</a>
+            <a href="#" class="footer-link">FAQ</a>
+          </div>
+          <div class="footer-column">
+            <h4 class="footer-heading">Entreprise</h4>
+            <a href="#" class="footer-link">À propos</a>
+            <a href="#" class="footer-link">Blog</a>
+            <a href="#" class="footer-link">Carrières</a>
+          </div>
+          <div class="footer-column">
+            <h4 class="footer-heading">Légal</h4>
+            <a href="#" class="footer-link">Confidentialité</a>
+            <a href="#" class="footer-link">CGU</a>
+            <a href="#" class="footer-link">Cookies</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Nexora. Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+<script src="{{ asset('JS/script.js') }}"></script>
+ 
+</body>
+</html>
