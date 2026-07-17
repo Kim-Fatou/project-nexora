@@ -1,0 +1,212 @@
+/* ============================================================
+   NEXORA — Page Fonctionnalités
+   Inspiré de la mécanique de rallyinteractive.com (index latéral
+   fixe, sections plein écran, grosse typo) mais avec la palette
+   et le "glass" bordeaux/crème déjà établis sur le reste du site.
+   ============================================================ */
+
+.features-shell .feat-main {
+    position: relative; z-index: 1;
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 112px 1rem 0 260px; /* 260px = place réservée à l'index latéral */
+}
+
+/* ---------- Index latéral fixe (à la Rally Interactive) ---------- */
+.features-shell .feat-index {
+    position: fixed;
+    top: 112px; left: 0;
+    width: 220px;
+    margin-left: 24px;
+    z-index: 20;
+}
+.features-shell .feat-index ol {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-direction: column; gap: 4px;
+}
+.features-shell .feat-index a {
+    display: flex; align-items: baseline; gap: 10px;
+    text-decoration: none;
+    padding: 10px 14px;
+    border-radius: 999px;
+    color: var(--muted);
+    transition: color .25s ease, background .25s ease;
+}
+.features-shell .fi-num { font-size: 11px; font-weight: 700; opacity: .6; }
+.features-shell .fi-label { font-size: 13.5px; font-weight: 500; }
+.features-shell .feat-index a:hover { color: var(--ink); }
+.features-shell .feat-index a.is-active {
+    color: var(--bordeaux);
+    background: linear-gradient(135deg, oklch(1 0 0 / 0.6), oklch(1 0 0 / 0.3));
+    box-shadow: 0 8px 20px -10px oklch(0.32 0.11 18 / 0.3);
+}
+.features-shell .feat-index a.is-active .fi-num { opacity: 1; }
+
+/* ---------- Chaque section = plein écran, esprit Rally ---------- */
+.features-shell .feat-section {
+    position: relative;
+    min-height: calc(100vh - 112px);
+    display: flex; align-items: center;
+    padding: 48px 0;
+    scroll-snap-align: start;
+    border-bottom: 1px solid oklch(0.32 0.11 18 / 0.08);
+}
+.features-shell .feat-section:last-child { border-bottom: none; }
+
+.features-shell .feat-num {
+    position: absolute; top: 48px; right: 0;
+    font-family: "Fraunces", Georgia, serif;
+    font-size: clamp(64px, 9vw, 140px);
+    font-weight: 300;
+    color: oklch(0.32 0.11 18 / 0.08);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+}
+
+.features-shell .feat-body {
+    position: relative; z-index: 1;
+    max-width: 640px;
+    opacity: 0; transform: translateY(36px);
+    transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+}
+.features-shell .feat-section.is-visible .feat-body {
+    opacity: 1; transform: translateY(0);
+}
+
+.features-shell .feat-title {
+    font-size: clamp(32px, 4.2vw, 52px);
+    font-weight: 700; line-height: 1.08; letter-spacing: -0.03em;
+    margin: 0 0 22px;
+    color: var(--ink);
+}
+.features-shell .feat-title em { font-style: italic; color: var(--bordeaux); }
+.features-shell .feat-text {
+    font-size: 16px; line-height: 1.7; color: var(--muted);
+    max-width: 480px; margin: 0 0 32px;
+}
+
+.features-shell .feat-visual {
+    padding: 22px 26px;
+    border-radius: 28px;
+    display: inline-flex;
+}
+
+/* ---------- Petites illustrations par fonctionnalité ---------- */
+.features-shell .mini-bubbles { display: flex; flex-wrap: wrap; gap: 10px; }
+.features-shell .mini-chip {
+    padding: 9px 16px; border-radius: 999px; font-size: 13.5px; font-weight: 600;
+    background: rgba(255,255,255,.55); color: var(--muted);
+    border: 1px solid oklch(0.32 0.11 18 / 0.12);
+}
+.features-shell .mini-chip.is-on {
+    background: var(--gradient-bordeaux); color: var(--cream); border-color: transparent;
+    box-shadow: 0 8px 20px -8px oklch(0.32 0.11 18 / 0.5);
+}
+
+.features-shell .mini-room-list { display: flex; flex-direction: column; gap: 10px; min-width: 260px; }
+.features-shell .mini-room {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; border-radius: 14px;
+    background: rgba(255,255,255,.5); font-size: 14px; font-weight: 500;
+}
+.features-shell .mini-room-dot { width: 8px; height: 8px; border-radius: 50%; background: #38b46a; box-shadow: 0 0 8px #38b46a; }
+.features-shell .mini-room-count { margin-left: auto; font-size: 12px; color: var(--muted); font-weight: 600; }
+
+.features-shell .mini-chat { display: flex; flex-direction: column; gap: 10px; min-width: 260px; }
+.features-shell .mini-msg { padding: 10px 15px; border-radius: 16px; font-size: 13.5px; max-width: 85%; }
+.features-shell .mini-msg.in { align-self: flex-start; background: rgba(255,255,255,.7); }
+.features-shell .mini-msg.out { align-self: flex-end; background: var(--gradient-bordeaux); color: var(--cream); }
+
+.features-shell .mini-nexia { display: flex; align-items: center; gap: 14px; }
+.features-shell .mini-nexia-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--gradient-bordeaux); color: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Fraunces", Georgia, serif; font-weight: 600;
+}
+.features-shell .mini-nexia-bubble { padding: 12px 18px; border-radius: 18px; background: rgba(255,255,255,.7); font-size: 14px; }
+
+.features-shell .mini-handle {
+    font-family: "Fraunces", Georgia, serif; font-style: italic;
+    font-size: 26px; color: var(--bordeaux);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ---------- Mise en page 2 colonnes : texte + capture d'écran réelle ---------- */
+.features-shell .feat-grid {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 56px;
+    align-items: center;
+    width: 100%;
+}
+.features-shell .feat-grid-reverse { grid-template-columns: .9fr 1.1fr; }
+.features-shell .feat-grid-reverse .feat-copy { order: 2; }
+.features-shell .feat-grid-reverse .feat-shot { order: 1; }
+
+.features-shell .feat-copy { max-width: 480px; }
+
+/* Cadre "capture d'écran" : ombre douce + coins arrondis, cohérent avec le style verre */
+.features-shell .feat-shot {
+    display: flex; justify-content: center;
+}
+.features-shell .feat-shot img {
+    width: 100%;
+    max-width: 340px;
+    border-radius: 28px;
+    box-shadow: 0 30px 70px -24px oklch(0.32 0.11 18 / 0.45),
+                0 0 0 1px oklch(1 0 0 / 0.5);
+    display: block;
+}
+/* Les captures "téléphone" (chat, salons, NEXIA) sont plus hautes/étroites : on les contraint un peu plus */
+.features-shell .feat-shot-phone img { max-width: 280px; }
+
+@media (max-width: 900px) {
+    .features-shell .feat-grid,
+    .features-shell .feat-grid-reverse { grid-template-columns: 1fr; gap: 32px; }
+    .features-shell .feat-grid-reverse .feat-copy,
+    .features-shell .feat-grid-reverse .feat-shot { order: initial; }
+    .features-shell .feat-copy { max-width: 100%; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1100px) {
+    .features-shell .feat-index { display: none; } /* index latéral masqué sous 1100px, on garde le scroll simple */
+    .features-shell .feat-main { padding-left: 1rem; }
+}
+@media (max-width: 760px) {
+    .features-shell .feat-main { padding-top: 92px; }
+    .features-shell .feat-section { min-height: 0; padding: 40px 0; }
+    .features-shell .feat-num { display: none; }
+}

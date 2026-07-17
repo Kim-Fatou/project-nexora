@@ -1,0 +1,768 @@
+/* ============================================================
+   NEXORA — Page d'accueil
+   Toutes les classes sont préfixées par .acceuil-shell pour ne
+   jamais entrer en conflit avec auth.css (chargé globalement
+   dans layouts/app.blade.php pour les pages login/register).
+   ============================================================ */
+
+.acceuil-shell {
+  /* ---- Palette de couleurs (système oklch, propre à cette page) ---- */
+  --bordeaux: oklch(0.32 0.11 18);
+  --bordeaux-deep: oklch(0.24 0.09 18);
+  --bordeaux-glow: oklch(0.55 0.18 22);
+  --cream: oklch(0.96 0.018 78);
+  --cream-warm: oklch(0.92 0.035 75);
+  --ink: oklch(0.22 0.04 20);
+  --muted: oklch(0.48 0.04 30);
+
+  --radius-lg: 2.25rem;   /* 36px  — rayon des grandes cartes */
+  --radius-pill: 999px;
+
+  /* ---- Mesures partagées nav / contenu : garantit un alignement
+     parfait entre la barre de nav et les cartes en dessous. ---- */
+  --container-max: 1360px;
+  --nav-max: 1120px;         /* la nav est plus ÉTROITE que le contenu — espace visible à sa droite */
+  --container-pad: 1rem;   /* 16px de marge gauche/droite, identique partout */
+  --nav-h: 62px;             /* hauteur visuelle de la pilule de nav */
+  --nav-offset: 88px;        /* nav-h + marge du haut + petit espace avant le contenu */
+
+  --gradient-hero:
+    radial-gradient(ellipse 80% 60% at 20% 20%, oklch(0.55 0.18 22 / 0.25), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 80% 80%, oklch(0.32 0.11 18 / 0.22), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 60% 30%, oklch(0.88 0.05 70 / 0.5), transparent 70%);
+  --gradient-bordeaux: linear-gradient(135deg, oklch(0.38 0.13 20), oklch(0.24 0.09 18));
+  --gradient-border: linear-gradient(135deg, oklch(1 0 0 / 0.7), oklch(0.32 0.11 18 / 0.2) 50%, oklch(1 0 0 / 0.5));
+
+  --shadow-glass:
+    0 20px 60px -20px oklch(0.32 0.11 18 / 0.35),
+    0 1px 0 0 oklch(1 0 0 / 0.6) inset,
+    0 0 0 1px oklch(1 0 0 / 0.1) inset;
+  --shadow-glow: 0 0 80px oklch(0.55 0.18 22 / 0.35);
+
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  font-family: "Inter", "Geist", ui-sans-serif, system-ui, sans-serif;
+  color: var(--ink);
+  background-color: var(--cream);
+  background-image: var(--gradient-hero);
+  background-attachment: fixed;
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+}
+.acceuil-shell * { box-sizing: border-box; }
+.acceuil-shell h1, .acceuil-shell h2, .acceuil-shell h3, .acceuil-shell h4 {
+  font-weight: 300; letter-spacing: -0.035em; margin: 0;
+}
+
+/* Défilement doux + "scroll-snap" : chaque section pleine hauteur
+   s'accroche à l'écran, comme demandé pour préparer les prochaines
+   sections. Portée uniquement à cette page (acceuil.css n'est
+   chargé que sur welcome.blade.php). */
+html:has(.acceuil-shell) {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+}
+
+/* ---------- Effet "verre dépoli" réutilisable ---------- */
+.acceuil-shell .glass {
+  position: relative;
+  background: linear-gradient(135deg, oklch(1 0 0 / 0.6), oklch(1 0 0 / 0.3));
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-glass);
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+.acceuil-shell .glass::before {
+  content: "";
+  position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+  background: var(--gradient-border);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  pointer-events: none;
+}
+.acceuil-shell .glass-light {
+  background: linear-gradient(135deg, oklch(1 0 0 / 0.75), oklch(1 0 0 / 0.45));
+  -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
+  box-shadow: 0 10px 30px -12px oklch(0.32 0.11 18 / 0.2);
+}
+.acceuil-shell .glass-dark {
+  background: linear-gradient(135deg, oklch(0.32 0.11 18 / 0.92), oklch(0.24 0.09 18 / 0.88));
+  color: var(--cream);
+  box-shadow: 0 10px 30px -12px oklch(0.32 0.11 18 / 0.4);
+}
+
+/* ---------- Bulles floues en fond (décor) ---------- */
+.acceuil-shell .bubbles { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.acceuil-shell .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.55; will-change: transform; }
+.acceuil-shell .blob-1 { width: 520px; height: 520px; background: oklch(0.55 0.18 22 / 0.55); top: -120px; left: -100px; }
+.acceuil-shell .blob-2 { width: 460px; height: 460px; background: oklch(0.32 0.11 18 / 0.5); bottom: -140px; right: -120px; }
+.acceuil-shell .blob-3 { width: 380px; height: 380px; background: oklch(0.88 0.05 70 / 0.7); top: 40%; left: 55%; }
+
+/* ---------- Boutons ---------- */
+.acceuil-shell .btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--gradient-bordeaux);
+  color: var(--cream);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-pill);
+  font: inherit; font-weight: 600; font-size: 14.5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 14px 30px -10px oklch(0.32 0.11 18 / 0.55);
+  white-space: nowrap;
+}
+.acceuil-shell .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
+.acceuil-shell .btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: none;
+  padding: 0.75rem 1.4rem;
+  border-radius: var(--radius-pill);
+  font: inherit; font-weight: 500; font-size: 14.5px;
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--bordeaux);
+  background: linear-gradient(135deg, oklch(1 0 0 / 0.5), oklch(1 0 0 / 0.25));
+  transition: transform .25s ease;
+  white-space: nowrap;
+}
+.acceuil-shell .btn-ghost:hover { transform: translateY(-2px); }
+
+/* ============================================================
+   NAV — désormais FIXE (position:fixed), ne défile plus avec la
+   page. Le contenu en dessous (.corps) reçoit un padding-top égal
+   à --nav-offset pour ne jamais passer sous la nav.
+   ============================================================ */
+/* Le contenu (NEXIA + hero) est quasi plein écran, avec juste une
+   petite marge --container-pad des DEUX côtés (peu d'espace à gauche
+   de NEXIA, comme demandé). La nav, elle, est volontairement plus
+   ÉTROITE (--nav-max) et ancrée à gauche : l'espace visible apparaît
+   uniquement à SA droite, jamais à gauche. */
+.acceuil-shell .corps {
+  width: min(1600px, calc(100% - 2 * var(--container-pad)));
+  margin-left: var(--container-pad);
+  margin-right: auto;
+}
+
+.acceuil-shell .nav-wrap {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  padding: 1rem var(--container-pad) 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.acceuil-shell .nav {
+  pointer-events: auto;
+  position: relative;
+  display: flex; align-items: center; gap: 1.5rem;
+  padding: 0 var(--container-pad);
+  height: var(--nav-h);
+  width: min(var(--nav-max), 100%);
+  flex-shrink: 0;
+}
+
+/* Badge "100% anonyme" — s'étire pour occuper TOUT l'espace restant
+   à droite de la nav (flex:1), jusqu'au bord droit du conteneur.
+   Reprend le même effet verre que la pilule de nav, en plus discret. */
+.acceuil-shell .anon-badge {
+  flex: 1 1 auto;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  height: var(--nav-h);
+  padding: 0 18px;
+  border-radius: var(--radius-pill);
+  font-size: 12.5px; font-weight: 600;
+  color: var(--bordeaux);
+  white-space: nowrap;
+  background: linear-gradient(135deg, oklch(1 0 0 / 0.55), oklch(1 0 0 / 0.28));
+  backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+  border: 1px solid oklch(1 0 0 / 0.5);
+  box-shadow: 0 8px 20px -10px oklch(0.32 0.11 18 / 0.25);
+  /* Pulse discret toutes les 5 secondes (voir @keyframes badge-pulse) */
+  animation: badge-pulse 5s ease-in-out infinite;
+}
+.acceuil-shell .anon-badge svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+/* Le badge "respire" brièvement une fois par cycle de 5s : léger
+   agrandissement + lueur bordeaux, puis retour au calme. */
+@keyframes badge-pulse {
+  0%, 88%, 100% {
+    transform: scale(1);
+    box-shadow: 0 8px 20px -10px oklch(0.32 0.11 18 / 0.25);
+    border-color: oklch(1 0 0 / 0.5);
+  }
+  94% {
+    transform: scale(1.035);
+    box-shadow: 0 10px 26px -8px oklch(0.55 0.18 22 / 0.5);
+    border-color: oklch(0.55 0.18 22 / 0.6);
+  }
+}
+
+/* Sur les écrans plus étroits, la nav occupe déjà tout l'espace
+   disponible (voir --nav-max/100% ci-dessus) : plus de place pour le
+   badge, on le masque proprement plutôt que de le laisser déborder. */
+@media (max-width: 1300px) {
+  .acceuil-shell .anon-badge { display: none; }
+}
+.acceuil-shell .brand {
+  display: flex; align-items: center; gap: 0.6rem;
+  font-weight: 600; letter-spacing: 0.18em; font-size: 1.05rem;
+  color: var(--bordeaux); text-decoration: none;
+  flex-shrink: 0;
+}
+.acceuil-shell .brand-name {
+  font-size: 1.05rem;
+}
+.acceuil-shell .brand-dot {
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--gradient-bordeaux);
+  box-shadow: 0 0 12px var(--bordeaux-glow);
+}
+.acceuil-shell .nav-links { display: flex; gap: 1.6rem; list-style: none; margin: 0 auto; padding: 0; }
+.acceuil-shell .nav-links a {
+  text-decoration: none; color: var(--ink); font-size: 0.95rem;
+  opacity: 0.75; transition: opacity 0.2s;
+  white-space: nowrap;
+}
+.acceuil-shell .nav-links a:hover { opacity: 1; }
+.acceuil-shell .nav-cta { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.acceuil-shell .nav-cta .btn-ghost { padding: 0.75rem 1.1rem; }
+
+/* Bouton "burger" — masqué par défaut, affiché seulement en mobile */
+.acceuil-shell .nav-burger {
+  display: none;
+  width: 40px; height: 40px;
+  border: none; background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  align-items: center; justify-content: center;
+  flex-direction: column; gap: 4px;
+  flex-shrink: 0;
+  transition: background .2s ease;
+}
+.acceuil-shell .nav-burger:hover { background: oklch(0.32 0.11 18 / 0.08); }
+.acceuil-shell .nav-burger span {
+  display: block; width: 20px; height: 2px;
+  background: var(--bordeaux); border-radius: 2px;
+  transition: transform .3s cubic-bezier(.22,1,.36,1), opacity .2s ease;
+}
+/* Animation du burger en croix quand le menu est ouvert */
+.acceuil-shell .nav.is-open .nav-burger span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.acceuil-shell .nav.is-open .nav-burger span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.acceuil-shell .nav.is-open .nav-burger span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* ============================================================
+   Mise en page générale : panneau NEXIA + hero, COLLÉS l'un à
+   l'autre (gap:0) pour former une seule silhouette continue,
+   comme sur la maquette. --nav-offset pousse tout sous la nav fixe.
+   ============================================================ */
+.acceuil-shell .corps {
+  position: relative; z-index: 1;
+  padding: var(--nav-offset) 0 40px;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 0;
+  align-items: stretch;
+}
+
+/* ---------- Panneau NEXIA (colonne gauche) ----------
+   Arrondi uniquement sur les coins EXTÉRIEURS (gauche) : le côté
+   droit reste droit puisqu'il touche directement le hero. */
+.acceuil-shell .nexia-panel {
+  width: 320px;
+  max-width: 320px;
+  min-height: calc(100vh - var(--nav-offset) - 40px);
+  max-height: 640px;
+  box-sizing: border-box;
+  padding: 24px 20px;
+  display: flex; flex-direction: column;
+  gap: 16px;
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  animation: fade-up 1s cubic-bezier(.22,1,.36,1) both;
+}
+.acceuil-shell .nexia-head { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+.acceuil-shell .nexia-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--gradient-bordeaux);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--cream); font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 22px;
+  box-shadow: 0 10px 26px -8px oklch(0.32 0.11 18 / 0.55);
+  flex-shrink: 0;
+}
+.acceuil-shell .nexia-name { font-weight: 700; letter-spacing: 0.06em; font-size: 13px; color: var(--bordeaux); }
+.acceuil-shell .nexia-tagline { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+.acceuil-shell .nexia-chat {
+  flex: 1;
+  display: flex; flex-direction: column; gap: 8px;
+  min-height: 100px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+.acceuil-shell .nexia-bubble {
+  padding: 10px 14px; border-radius: 16px; font-size: 13px; line-height: 1.45;
+  max-width: 92%;
+  animation: fade-up .5s cubic-bezier(.22,1,.36,1) both;
+}
+.acceuil-shell .nexia-bubble.from-user {
+  align-self: flex-end;
+  background: var(--gradient-bordeaux);
+  color: var(--cream);
+  border-bottom-right-radius: 6px;
+}
+.acceuil-shell .nexia-bubble.from-nexia {
+  align-self: flex-start;
+  background: rgba(255,255,255,.75);
+  color: var(--ink);
+  border: 1px solid rgba(255,255,255,.7);
+  border-bottom-left-radius: 6px;
+}
+.acceuil-shell .nexia-hint { font-size: 12px; color: var(--muted); text-align: center; margin: auto 0; }
+
+/* Formulaire : input + bouton d'envoi TOUJOURS côte à côte
+   (flex-wrap:nowrap + min-width:0 empêchent tout retour à la ligne). */
+.acceuil-shell .nexia-form { display: flex !important; flex-wrap: nowrap !important; flex-direction: row !important; align-items: center !important; gap: 8px !important; }
+.acceuil-shell .search-bar {
+  flex: 1 1 auto;
+  min-width: 0; /* essentiel : autorise l'input à rétrécir dans le flex */
+  height: 42px;
+  padding: 0 16px;
+  border: 1px solid oklch(0.32 0.11 18 / 0.25);
+  border-radius: var(--radius-pill);
+  font: inherit; font-size: 13px;
+  outline: none;
+  background: rgba(255,255,255,.6);
+  color: var(--ink);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.acceuil-shell .search-bar:focus { border-color: var(--bordeaux); box-shadow: 0 0 0 3px oklch(0.55 0.18 22 / 0.15); }
+.acceuil-shell #send-btn {
+  width: 42px; height: 42px; padding: 0; flex: 0 0 42px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+}
+.acceuil-shell #send-btn svg { width: 15px; height: 15px; }
+
+/* ---------- HERO (bloc principal droit) ----------
+   Arrondi uniquement sur les coins EXTÉRIEURS (droite) — le côté
+   gauche touche directement le panneau NEXIA, sans espace. */
+.acceuil-shell .hero {
+  padding: 28px 36px;
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  display: flex;
+  flex-direction: column;
+  /* Le hero occupe l'écran disponible sous la nav, MAIS plafonné :
+     sur les grands écrans, on évite qu'il s'étire trop en hauteur
+     (comme sur la maquette, où le cadre reste compact). */
+  min-height: calc(100vh - var(--nav-offset) - 40px);
+  max-height: 640px;
+  scroll-snap-align: start; /* accroche douce lors du scroll */
+  animation: fade-up 1s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes fade-up { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+
+.acceuil-shell .hero-body {
+  position: relative;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.1fr .9fr 1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+.acceuil-shell .title {
+  font-size: clamp(34px, 3.6vw, 54px);
+  line-height: 1.03; letter-spacing: -0.035em;
+  font-weight: 800; margin: 8px 0 20px;
+}
+.acceuil-shell .t-line { display: block; opacity: 0; transform: translateY(24px); animation: line-in .8s cubic-bezier(.22,1,.36,1) forwards; }
+.acceuil-shell .t-accent { color: var(--bordeaux); }
+.acceuil-shell .t-line:nth-child(1) { animation-delay: .15s; }
+.acceuil-shell .t-line:nth-child(2) { animation-delay: .28s; }
+.acceuil-shell .t-line:nth-child(3) { animation-delay: .41s; }
+.acceuil-shell .t-line:nth-child(4) { animation-delay: .54s; }
+@keyframes line-in { to { opacity: 1; transform: translateY(0); } }
+
+.acceuil-shell .lead { max-width: 440px; color: var(--muted); font-size: 15px; line-height: 1.6; margin: 0; }
+
+.acceuil-shell .members { margin-top: 22px; display: flex; align-items: center; gap: 14px; }
+.acceuil-shell .avatars { display: flex; }
+.acceuil-shell .av {
+  width: 38px; height: 38px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 13px; font-weight: 700; color: var(--cream);
+  border: 2px solid rgba(255,255,255,.85);
+  margin-left: -10px;
+  box-shadow: 0 6px 14px -4px rgba(74,16,29,.35);
+}
+.acceuil-shell .av:first-child { margin-left: 0; }
+.acceuil-shell .av-a { background: linear-gradient(135deg,#7a1a2e,#a83352); }
+.acceuil-shell .av-b { background: linear-gradient(135deg,#6b1a2c,#8b2238); }
+.acceuil-shell .av-c { background: linear-gradient(135deg,#8a3a26,#b35a3c); }
+.acceuil-shell .av-more { background: linear-gradient(135deg,#4a101d,#6b1a2c); font-size: 11px; }
+.acceuil-shell .members-text { font-size: 14px; color: var(--ink); }
+.acceuil-shell .members-text strong { color: var(--bordeaux); }
+
+/* Colonne centrale : tags/chips flottantes (masquées sous 1100px) */
+.acceuil-shell .hero-center { position: relative; height: 100%; min-height: 220px; }
+.acceuil-shell .chip {
+  position: absolute;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 18px; border-radius: var(--radius-pill);
+  font-size: 13.5px; font-weight: 600;
+  white-space: nowrap;
+  animation: bob 6s ease-in-out infinite;
+}
+.acceuil-shell .chip-1 { top: 4%;  left: 36%; animation-delay: 0s; }
+.acceuil-shell .chip-2 { top: 18%; left: 50%; animation-delay: .6s; }
+.acceuil-shell .chip-3 { top: 36%; left: 12%; animation-delay: 1.1s; }
+.acceuil-shell .chip-4 { top: 50%; left: 30%; animation-delay: 1.6s; transform: scale(1.08); }
+.acceuil-shell .chip-5 { top: 64%; left: 14%; animation-delay: 2.1s; }
+.acceuil-shell .chip-6 { top: 78%; left: 38%; animation-delay: 2.4s; }
+.acceuil-shell .chip-8 { top: 8%;  left: 72%; animation-delay: 3s; }
+@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.acceuil-shell .chip:hover { animation-play-state: paused; }
+
+/* Colonne droite : aperçu de conversation illustratif */
+.acceuil-shell .hero-right { position: relative; display: flex; align-items: center; justify-content: flex-end; }
+.acceuil-shell .chat-preview {
+  width: 100%; max-width: 300px;
+  padding: 22px;
+  border-radius: 36px;
+  display: flex; flex-direction: column; gap: 12px;
+  animation-delay: .3s;
+}
+.acceuil-shell .cp-row { display: flex; align-items: center; gap: 12px; }
+.acceuil-shell .cp-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--gradient-bordeaux); box-shadow: 0 6px 16px -4px rgba(74,16,29,.5); flex-shrink: 0; }
+.acceuil-shell .cp-bar { flex: 1; height: 10px; border-radius: 6px; background: linear-gradient(90deg, rgba(0,0,0,.08), rgba(0,0,0,.04)); }
+.acceuil-shell .cp-msg { padding: 12px 18px; border-radius: 22px; font-size: 14px; max-width: 85%; }
+.acceuil-shell .cp-in { align-self: flex-start; background: rgba(255,255,255,.7); color: var(--ink); border: 1px solid rgba(255,255,255,.6); }
+.acceuil-shell .cp-out { align-self: flex-end; background: var(--gradient-bordeaux); color: var(--cream); box-shadow: 0 8px 24px -6px rgba(74,16,29,.5); }
+
+/* Bas du hero : ligne pointillée "AUTHENTIQUE — COMMUNAUTÉ — PASSION" */
+.acceuil-shell .hero-foot { margin-top: 24px; display: flex; justify-content: center; flex-shrink: 0; }
+.acceuil-shell .dotted-line {
+  display: flex; align-items: center; justify-content: center; gap: 18px;
+  letter-spacing: 0.32em; font-size: 11.5px; color: var(--muted); font-weight: 600;
+}
+.acceuil-shell .dotted-line i { flex: 0 0 60px; height: 1px; background: linear-gradient(90deg, transparent, rgba(74,16,29,.4), transparent); }
+
+.acceuil-shell .reveal { animation: fade-up 1s cubic-bezier(.22,1,.36,1) both; animation-delay: .2s; }
+
+/* ============================================================
+   RESPONSIVE — chirurgical, du desktop large au petit mobile
+   ============================================================ */
+
+@media (max-width: 1180px) {
+  .acceuil-shell .corps { grid-template-columns: 240px 1fr; }
+}
+
+/* Tablette large : on retire les chips flottantes, panneau NEXIA plus compact */
+@media (max-width: 1100px) {
+  .acceuil-shell .hero-body { grid-template-columns: 1fr 1fr; }
+  .acceuil-shell .hero-center { display: none; }
+  .acceuil-shell .corps { grid-template-columns: 210px 1fr; }
+}
+
+/* Tablette / petit desktop : le panneau NEXIA passe en bandeau horizontal
+   au-dessus du hero — les deux gardent une largeur commune (gap léger
+   réintroduit ici puisqu'ils ne sont plus côte à côte). */
+@media (max-width: 900px) {
+  .acceuil-shell .corps { grid-template-columns: 1fr; gap: 16px; }
+  .acceuil-shell .nexia-panel {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: auto !important;
+    max-height: none !important;
+    flex-direction: row; align-items: center; padding: 16px 20px; gap: 18px;
+    border-radius: var(--radius-lg);
+  }
+  .acceuil-shell .nexia-head { flex-direction: row; text-align: left; flex-shrink: 0; }
+  .acceuil-shell .nexia-chat { display: none; }
+  .acceuil-shell .nexia-hint { display: none; }
+  .acceuil-shell .nexia-form { flex: 1; }
+  .acceuil-shell .hero { border-radius: var(--radius-lg); min-height: auto; }
+}
+
+/* Tablette portrait / mobile large : menu burger activé, avec un vrai
+   panneau déroulant animé (au lieu d'un simple display:none/flex). */
+@media (max-width: 760px) {
+  .acceuil-shell .nav-burger { display: flex; }
+
+  .acceuil-shell .nav-links {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0; right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    margin: 0;
+    padding: 0 18px;
+    background: linear-gradient(135deg, oklch(1 0 0 / 0.92), oklch(1 0 0 / 0.8));
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-radius: 24px;
+    box-shadow: var(--shadow-glass);
+
+    /* État fermé : invisible, aplati, non cliquable */
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+    overflow: hidden;
+    pointer-events: none;
+    transition:
+      max-height .45s cubic-bezier(.22,1,.36,1),
+      opacity .3s ease,
+      transform .35s cubic-bezier(.22,1,.36,1),
+      padding .45s cubic-bezier(.22,1,.36,1);
+  }
+  .acceuil-shell .nav-links a {
+    padding: 12px 4px;
+    opacity: 1;
+    border-bottom: 1px solid oklch(0.32 0.11 18 / 0.08);
+  }
+  .acceuil-shell .nav-links a:last-child { border-bottom: none; }
+
+  /* État ouvert (classe ajoutée par acceuil.js) : déploiement fluide */
+  .acceuil-shell .nav-links.is-open {
+    max-height: 400px;
+    opacity: 1;
+    transform: translateY(0);
+    padding: 10px 18px;
+    pointer-events: auto;
+  }
+
+  .acceuil-shell .corps { padding: var(--nav-offset) 0 40px; }
+  .acceuil-shell .hero { padding: 24px 20px; }
+  .acceuil-shell .hero-body { grid-template-columns: 1fr; gap: 28px; }
+  .acceuil-shell .hero-right { justify-content: flex-start; }
+  .acceuil-shell .chat-preview { max-width: 100%; }
+  .acceuil-shell .title { font-size: clamp(30px, 8vw, 42px); }
+  .acceuil-shell .lead { max-width: 100%; }
+
+  .acceuil-shell .nexia-panel { flex-direction: column; align-items: stretch; text-align: center; }
+  .acceuil-shell .nexia-head { flex-direction: column; align-items: center; text-align: center; }
+
+  /* Sur mobile, le nav n'a plus de "nav-cta" pleine largeur visible en
+     permanence à côté des liens : on garde Connexion/Rejoindre compacts. */
+  .acceuil-shell .nav-cta .btn-ghost { padding: 0.6rem 0.85rem; font-size: 13px; }
+  .acceuil-shell .nav-cta .btn-primary { padding: 0.6rem 1.1rem; font-size: 13px; }
+}
+
+/* Petit mobile */
+@media (max-width: 420px) {
+  .acceuil-shell .nav { padding: 0.7rem 1rem; gap: 0.75rem; }
+  .acceuil-shell .hero { padding: 20px 14px; }
+  .acceuil-shell .members { flex-wrap: wrap; }
+  .acceuil-shell .dotted-line { flex-wrap: wrap; gap: 8px 14px; }
+  .acceuil-shell .dotted-line i { flex-basis: 32px; }
+  .acceuil-shell .nav-cta .btn-ghost { display: none; }
+}
+
+.acceuil-shell .nav-logo-img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* ---------- Nouvelles Sections Accueil ---------- */
+.acceuil-shell .home-extra-section {
+  grid-column: 1 / -1;
+  margin-top: 48px;
+  animation: fade-up 1s cubic-bezier(.22,1,.36,1) both;
+}
+
+.acceuil-shell .section-title {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(24px, 5vw, 32px);
+  font-weight: 600;
+  color: var(--bordeaux);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.acceuil-shell .section-subtitle {
+  font-size: 14px;
+  color: var(--muted);
+  text-align: center;
+  max-width: 540px;
+  margin: 0 auto 36px;
+  line-height: 1.5;
+}
+
+.acceuil-shell .features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.acceuil-shell .feature-card {
+  padding: 36px 24px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.acceuil-shell .feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glow);
+}
+
+.acceuil-shell .feature-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--gradient-bordeaux);
+  color: var(--cream);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 20px -5px oklch(0.32 0.11 18 / 0.4);
+}
+
+.acceuil-shell .feature-title {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--bordeaux);
+  margin-bottom: 12px;
+}
+
+.acceuil-shell .feature-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Section "Comment ça marche" */
+.acceuil-shell .steps-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-top: 32px;
+}
+
+.acceuil-shell .step-row {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.acceuil-shell .step-row:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.acceuil-shell .step-num {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 72px;
+  font-weight: 700;
+  color: oklch(0.32 0.11 18 / 0.15);
+  line-height: 1;
+  min-width: 80px;
+  text-align: center;
+}
+
+.acceuil-shell .step-content {
+  flex: 1;
+}
+
+.acceuil-shell .step-title {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--bordeaux);
+  margin-bottom: 8px;
+}
+
+.acceuil-shell .step-desc {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Footer */
+.acceuil-shell .footer-wrap {
+  grid-column: 1 / -1;
+  margin-top: 64px;
+  padding: 36px var(--container-pad);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  text-align: center;
+}
+
+.acceuil-shell .footer-logo-img {
+  height: 48px;
+  width: auto;
+  margin: 0 auto 12px;
+  display: block;
+}
+
+.acceuil-shell .footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 24px;
+  flex-wrap: wrap;
+}
+
+.acceuil-shell .footer-links a {
+  text-decoration: none;
+  color: var(--ink);
+  opacity: 0.65;
+  font-size: 13px;
+  transition: opacity 0.2s;
+}
+.acceuil-shell .footer-links a:hover {
+  opacity: 1;
+}
+
+.acceuil-shell .footer-socials {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.acceuil-shell .footer-socials a {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  color: var(--bordeaux);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: background 0.2s, transform 0.2s;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.acceuil-shell .footer-socials a:hover {
+  background: var(--gradient-bordeaux);
+  color: var(--cream);
+  transform: scale(1.05);
+}
+
+.acceuil-shell .footer-copy {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+@media (max-width: 768px) {
+  .acceuil-shell .step-row, .acceuil-shell .step-row:nth-child(even) {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+}
+
+.acceuil-shell .nexia-panel .btn-primary {
+  white-space: normal !important;
+  text-align: center;
+}

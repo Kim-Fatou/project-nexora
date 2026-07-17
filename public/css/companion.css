@@ -1,0 +1,276 @@
+/* ============================================
+   Nexora — Compagnon virtuel
+   Cadre fixe (pas de scroll de page), fond vidéo
+   qui alterne, animations soignées.
+   Tout est préfixé .companion-shell.
+   ============================================ */
+
+.companion-shell {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+/* ===== Fond vidéo qui alterne ===== */
+.companion-shell .bg-video-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--bg);
+}
+.companion-shell .bg-video-layer video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.8s ease;
+}
+.companion-shell .bg-video-layer video.is-active { opacity: 1; }
+
+.companion-shell .bg-video-tint {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(240,189,182,0.78) 0%, transparent 45%),
+    radial-gradient(120% 90% at 100% 100%, rgba(243,205,184,0.72) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(250,238,227,0.9), rgba(251,246,240,0.94));
+}
+
+.companion-shell .auras { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.companion-shell .aura { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .4; animation: companion-aura-shift 16s ease-in-out infinite; }
+.companion-shell .aura.a1 { width: 420px; height: 420px; top: -140px; left: -100px; background: radial-gradient(circle, #f0bdb6 0%, transparent 70%); }
+.companion-shell .aura.a2 { width: 380px; height: 380px; bottom: -120px; right: -80px; background: radial-gradient(circle, #f3cdb8 0%, transparent 70%); animation-delay: 4s; }
+@keyframes companion-aura-shift {
+  0%, 100% { transform: scale(1) translate(0,0); }
+  50% { transform: scale(1.1) translate(2%, -2%); }
+}
+
+.companion-shell .skip-link {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 253, 251, 0.8);
+  backdrop-filter: blur(8px);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  box-shadow: var(--shadow-pill);
+  transition: color .2s, border-color .2s, transform .2s;
+}
+.companion-shell .skip-link:hover { color: var(--wine); border-color: rgba(138,29,43,0.3); transform: translateY(-1px); }
+
+/* ===== Cadre principal fixe (pas de scroll de page) ===== */
+.companion-shell .main-container {
+  position: relative;
+  z-index: 5;
+  height: 100%;
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 20px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  min-height: 0;
+}
+
+.companion-shell .card-enter {
+  animation: companion-card-in .7s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes companion-card-in {
+  from { opacity: 0; transform: translateY(20px) scale(.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ===== Avatar compagnon (compact) ===== */
+.companion-shell .companion-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  padding-bottom: 6px;
+}
+.companion-shell .companion-avatar-wrapper {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  margin-bottom: 8px;
+}
+.companion-shell .companion-glow {
+  position: absolute;
+  inset: 50%;
+  transform: translate(-50%, -50%);
+  width: 116px;
+  height: 116px;
+  background: radial-gradient(circle, rgba(138,29,43,0.35) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: companion-pulse 3s ease-in-out infinite;
+}
+@keyframes companion-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: .5; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: .8; }
+}
+.companion-shell .orbit-ring {
+  position: absolute;
+  inset: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px dashed rgba(138,29,43,0.18);
+  border-radius: 50%;
+  animation: companion-rotate 20s linear infinite;
+}
+.companion-shell .orbit-ring-1 { width: 116px; height: 116px; }
+.companion-shell .orbit-ring-2 { width: 142px; height: 142px; animation-direction: reverse; animation-duration: 26s; }
+.companion-shell .orbit-dot {
+  position: absolute; top: -5px; left: 50%; transform: translateX(-50%);
+  width: 8px; height: 8px; border-radius: 50%; background: var(--wine);
+  box-shadow: 0 0 10px rgba(138,29,43,0.5);
+}
+@keyframes companion-rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+.companion-shell .companion-avatar {
+  position: relative;
+  z-index: 2;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--wine-grad);
+  color: #fdf6ec;
+  border: 4px solid #fff;
+  box-shadow: var(--shadow-soft);
+  animation: companion-float 4s ease-in-out infinite;
+}
+.companion-shell .companion-avatar svg { width: 34px; height: 34px; }
+@keyframes companion-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+.companion-shell .companion-status {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12.5px; font-weight: 500; color: var(--wine-deep);
+}
+.companion-shell .status-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: #22c55e;
+  animation: companion-blink 2s ease-in-out infinite;
+}
+@keyframes companion-blink { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
+
+/* ===== Indicateur d'étapes ===== */
+.companion-shell .step-progress {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 10px;
+  flex-shrink: 0;
+}
+.companion-shell .step-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--border);
+  transition: background .3s ease, transform .3s ease;
+}
+.companion-shell .step-dot.is-done {
+  background: var(--wine);
+  transform: scale(1.2);
+}
+
+/* ===== Zone de chat (hauteur fixe, scroll interne uniquement) ===== */
+.companion-shell .chat-zone {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 253, 251, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  padding: 18px;
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+.companion-shell .chat-messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 6px;
+  scroll-behavior: smooth;
+}
+.companion-shell .chat-messages::-webkit-scrollbar { width: 5px; }
+.companion-shell .chat-messages::-webkit-scrollbar-thumb { background: rgba(138,29,43,0.25); border-radius: 3px; }
+
+.companion-shell .message { margin-bottom: 12px; opacity: 0; animation: companion-fade-up .5s ease forwards; }
+@keyframes companion-fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+.companion-shell .message-companion { display: flex; gap: 10px; align-items: flex-start; }
+.companion-shell .message-avatar {
+  width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--wine-grad); color: #fdf6ec; border: 2px solid #fff;
+}
+.companion-shell .message-avatar svg { width: 14px; height: 14px; }
+.companion-shell .message-bubble {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  border-radius: 18px 18px 18px 4px;
+  max-width: 82%;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--foreground);
+  box-shadow: 0 4px 15px -8px rgba(138,29,43,0.2);
+}
+.companion-shell .message-user { display: flex; justify-content: flex-end; }
+.companion-shell .message-user .message-bubble {
+  background: var(--wine-grad);
+  color: #fdf6ec;
+  border: none;
+  border-radius: 18px 18px 4px 18px;
+}
+
+.companion-shell .typing-indicator { display: flex; gap: 4px; padding: 10px 14px; }
+.companion-shell .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); animation: companion-typing 1.4s ease-in-out infinite; }
+.companion-shell .typing-dot:nth-child(2) { animation-delay: .2s; }
+.companion-shell .typing-dot:nth-child(3) { animation-delay: .4s; }
+@keyframes companion-typing { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
+
+/* ===== Boutons de flux ===== */
+.companion-shell .flow-actions-container { display: none; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 12px; flex-shrink: 0; }
+.companion-shell .flow-actions-container.active { display: flex; animation: companion-fade-scale .4s ease forwards; }
+@keyframes companion-fade-scale { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: scale(1); } }
+
+.companion-shell .action-btn {
+  border: none; cursor: pointer; border-radius: 999px;
+  padding: 10px 16px; font-size: 13px; font-weight: 600; font-family: inherit;
+  transition: transform .2s, box-shadow .2s;
+}
+.companion-shell .action-btn:hover { transform: translateY(-2px); }
+.companion-shell .action-btn.primary { background: var(--wine-grad); color: #fdf6ec; box-shadow: var(--shadow-pill); }
+.companion-shell .action-btn.secondary { background: #fff; color: var(--wine-deep); border: 1px solid var(--border); }
+
+@media (max-width: 480px) {
+  .companion-shell .main-container { padding: 16px 12px 18px; }
+  .companion-shell .chat-zone { padding: 14px; border-radius: 20px; }
+  .companion-shell .companion-avatar-wrapper { width: 70px; height: 70px; }
+  .companion-shell .companion-avatar { width: 70px; height: 70px; }
+  .companion-shell .companion-avatar svg { width: 28px; height: 28px; }
+}

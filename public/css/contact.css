@@ -1,0 +1,86 @@
+/* ============================================================
+   NEXORA — Page Contact
+   Réutilise acceuil.css (nav, glass, palette) + fonctionnalites.css
+   (propos-eyebrow). N'ajoute que ce qui est propre au formulaire.
+   ============================================================ */
+.contact-shell [data-cm-reveal].is-visible { opacity: 1 !important; transform: translateY(0) !important; }
+.contact-shell .contact-main {
+    position: relative; z-index: 1;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 150px 1.5rem 120px;
+}
+
+.contact-shell .contact-grid {
+    display: grid;
+    grid-template-columns: .85fr 1.15fr;
+    gap: 60px;
+    align-items: start;
+}
+
+/* ---------- Colonne intro ---------- */
+.contact-shell .contact-title {
+    font-size: clamp(30px, 4vw, 46px);
+    font-weight: 800; line-height: 1.12; letter-spacing: -0.03em;
+    margin: 0 0 18px; color: var(--ink);
+}
+.contact-shell .contact-title em { color: var(--bordeaux); font-style: italic; }
+.contact-shell .contact-lead { color: var(--muted); font-size: 15.5px; line-height: 1.65; max-width: 420px; margin: 0 0 40px; }
+
+.contact-shell .contact-info-list { display: flex; flex-direction: column; gap: 22px; }
+.contact-shell .contact-info-item { display: flex; align-items: flex-start; gap: 14px; }
+.contact-shell .contact-info-ic {
+    width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,.55); border: 1px solid oklch(0.32 0.11 18 / 0.12);
+    font-size: 17px;
+}
+.contact-shell .contact-info-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 3px; }
+.contact-shell .contact-info-value { font-size: 14.5px; color: var(--ink); }
+.contact-shell .contact-info-value strong { color: var(--bordeaux); }
+
+/* ---------- Carte formulaire ---------- */
+.contact-shell .contact-form-card { padding: 40px; border-radius: 32px; }
+.contact-shell .contact-form { display: flex; flex-direction: column; gap: 20px; }
+.contact-shell .contact-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.contact-shell .contact-field { display: flex; flex-direction: column; gap: 8px; }
+.contact-shell .contact-field span {
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700;
+}
+.contact-shell .contact-field input,
+.contact-shell .contact-field textarea {
+    width: 100%; padding: 13px 16px; border-radius: 14px;
+    background: rgba(255,255,255,.55); border: 1px solid oklch(0.32 0.11 18 / 0.18);
+    color: var(--ink); font: inherit; font-size: 14px; outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.contact-shell .contact-field textarea { resize: vertical; min-height: 120px; line-height: 1.5; }
+.contact-shell .contact-field input:focus,
+.contact-shell .contact-field textarea:focus {
+    border-color: var(--bordeaux); background: #fff;
+    box-shadow: 0 0 0 4px oklch(0.55 0.18 22 / 0.15);
+}
+.contact-shell .contact-error { color: #a3273a; font-size: 12px; }
+.contact-shell .contact-alert {
+    padding: 12px 16px; border-radius: 12px;
+    background: rgba(163,39,58,0.08); border: 1px solid rgba(163,39,58,0.25);
+    color: #a3273a; font-size: 13px;
+}
+.contact-shell .contact-submit { align-self: flex-start; padding: 1rem 2rem; font-size: 15px; }
+
+/* ---------- État "message envoyé" ---------- */
+.contact-shell .contact-success { text-align: center; padding: 30px 10px; }
+.contact-shell .contact-success-ic { font-size: 40px; display: block; margin-bottom: 14px; }
+.contact-shell .contact-success h2 { font-size: 24px; font-weight: 700; margin: 0 0 10px; color: var(--ink); }
+.contact-shell .contact-success p { color: var(--muted); font-size: 14.5px; margin: 0 0 24px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .contact-shell .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .contact-shell .contact-lead { max-width: 100%; }
+}
+@media (max-width: 560px) {
+    .contact-shell .contact-main { padding-top: 110px; }
+    .contact-shell .contact-field-row { grid-template-columns: 1fr; }
+    .contact-shell .contact-form-card { padding: 28px 22px; }
+}

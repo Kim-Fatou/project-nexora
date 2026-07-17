@@ -1,0 +1,197 @@
+/* ============================================================
+   NEXORA — Page Communauté, inspirée de lusion.co :
+   halo qui suit la souris, ticker infini, galerie horizontale
+   draggable, boutons magnétiques, compteurs animés.
+   Palette scopée sous .communaute-shell, tokens hex imposés.
+   ============================================================ */
+
+.communaute-shell {
+  --bg: #fbf6f0;
+  --card: #fffdfb;
+  --foreground: #2a1a1c;
+  --muted: #8a6a6a;
+  --wine: #8a1d2b;
+  --wine-deep: #5a1019;
+  --border: #ead9d4;
+  --shadow-pill: 0 10px 30px -12px rgba(120, 30, 40, 0.25);
+  --shadow-soft: 0 20px 60px -20px rgba(120, 30, 40, 0.35);
+  --wine-grad: linear-gradient(135deg, #9a2334, #5a1019);
+}
+
+.communaute-shell .cm-section {
+  position: relative; z-index: 1;
+  width: min(1200px, calc(100% - 3rem));
+  margin-inline: auto;
+  padding: 90px 0;
+}
+.communaute-shell .cm-hero { padding-top: 130px; text-align: center; }
+
+.communaute-shell .cm-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12.5px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--wine); margin-bottom: 26px;
+}
+.communaute-shell .cm-index {
+  display: block; font-size: 13px; font-weight: 700; letter-spacing: 0.3em;
+  color: var(--wine); opacity: 0.55; margin-bottom: 22px;
+}
+.communaute-shell .cm-index-light { color: var(--card); opacity: 0.65; }
+
+/* ---------- Halo qui suit la souris (esprit Lusion) ---------- */
+.communaute-shell .cm-glow {
+  position: fixed; top: 0; left: 0;
+  width: 480px; height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(138,29,43,0.16), transparent 70%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+  transition: opacity .3s ease;
+}
+
+/* ---------- Révélation au scroll ---------- */
+.communaute-shell [data-cm-reveal] {
+  opacity: 0; transform: translateY(36px);
+  transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1);
+}
+.communaute-shell [data-cm-reveal].is-visible { opacity: 1; transform: translateY(0); }
+
+/* ---------- Titres ---------- */
+.communaute-shell .cm-hero-title {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(38px, 7vw, 88px); font-weight: 500; line-height: 1.05;
+  letter-spacing: -0.03em; color: var(--foreground); margin: 0 0 30px;
+}
+.communaute-shell .cm-hero-title em { font-style: italic; color: var(--wine); }
+.communaute-shell .cm-hero-lead {
+  max-width: 560px; margin: 0 auto; color: var(--muted); font-size: 17px; line-height: 1.7;
+}
+.communaute-shell .cm-title-lg {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(30px, 4.6vw, 52px); font-weight: 500; line-height: 1.1;
+  letter-spacing: -0.02em; color: var(--foreground); margin: 0 0 16px;
+}
+.communaute-shell .cm-title-lg em { font-style: italic; color: var(--wine); }
+.communaute-shell .cm-title-light { color: var(--card); }
+.communaute-shell .cm-section-sub { color: var(--muted); font-size: 15.5px; max-width: 480px; }
+
+/* ---------- 02. Ticker infini ---------- */
+.communaute-shell .cm-ticker-wrap { padding: 40px 0; }
+.communaute-shell .cm-ticker {
+  overflow: hidden;
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 22px 0;
+}
+.communaute-shell .cm-ticker-track {
+  display: inline-flex; align-items: center; gap: 28px;
+  white-space: nowrap;
+  animation: cm-scroll 26s linear infinite;
+  font-family: "Fraunces", Georgia, serif; font-style: italic;
+  font-size: clamp(22px, 3vw, 34px); color: var(--foreground);
+}
+.communaute-shell .cm-dot { color: var(--wine); font-style: normal; font-size: 14px; }
+@keyframes cm-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.communaute-shell .cm-ticker:hover .cm-ticker-track { animation-play-state: paused; }
+
+/* ---------- 03. Galerie horizontale draggable ---------- */
+.communaute-shell .cm-section-head { max-width: 640px; margin-bottom: 40px; }
+.communaute-shell .cm-gallery {
+  overflow-x: auto; overflow-y: hidden;
+  scrollbar-width: none; cursor: grab;
+  margin: 0 calc(-1 * (min(1200px, calc(100% - 3rem)) - 100vw) / -2); /* laisse déborder légèrement */
+}
+.communaute-shell .cm-gallery::-webkit-scrollbar { display: none; }
+.communaute-shell .cm-gallery.is-dragging { cursor: grabbing; }
+.communaute-shell .cm-gallery-track { display: flex; gap: 22px; padding: 4px 4px 20px; width: max-content; }
+.communaute-shell .cm-gallery-card {
+  flex: 0 0 240px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  padding: 30px 26px;
+  box-shadow: var(--shadow-soft);
+  transition: transform .35s cubic-bezier(.22,1,.36,1);
+}
+.communaute-shell .cm-gallery-card:hover { transform: translateY(-8px); }
+.communaute-shell .cm-gallery-icon { font-size: 34px; display: block; margin-bottom: 18px; }
+.communaute-shell .cm-gallery-card h3 { font-size: 19px; font-weight: 700; color: var(--foreground); margin: 0 0 6px; }
+.communaute-shell .cm-gallery-card p { font-size: 13.5px; color: var(--muted); margin: 0; }
+
+/* ---------- 04. Témoignages ---------- */
+.communaute-shell .cm-testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 36px; }
+.communaute-shell .cm-testi-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 24px;
+  padding: 30px 28px; box-shadow: var(--shadow-soft);
+}
+.communaute-shell .cm-testi-card p {
+  font-size: 15px; line-height: 1.65; color: var(--foreground); margin: 0 0 20px; font-style: italic;
+}
+.communaute-shell .cm-testi-name { font-size: 13px; font-weight: 700; color: var(--wine); }
+
+/* ---------- 05. Bloc sombre + compteurs ---------- */
+.communaute-shell .cm-dark {
+  width: 100vw; max-width: 100vw; margin-left: calc(-50vw + 50%);
+  padding: 100px 1.5rem;
+  background: var(--wine-grad), var(--wine-deep);
+  background-blend-mode: overlay;
+  text-align: center;
+}
+.communaute-shell .cm-stats-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;
+  max-width: 1000px; margin: 30px auto 0;
+}
+.communaute-shell .cm-stat { display: flex; flex-direction: column; align-items: center; }
+.communaute-shell .cm-stat-num {
+  font-family: "Fraunces", Georgia, serif; font-weight: 600;
+  font-size: clamp(40px, 5vw, 64px); color: var(--card); line-height: 1;
+}
+.communaute-shell .cm-stat-plus { font-family: "Fraunces", Georgia, serif; font-size: 24px; color: rgba(255,255,255,.6); }
+.communaute-shell .cm-stat-label {
+  margin-top: 10px; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255,255,255,.65);
+}
+
+/* ---------- 06. Boutons magnétiques ---------- */
+.communaute-shell .cm-join { text-align: center; }
+.communaute-shell .cm-join-title { margin-bottom: 44px; }
+.communaute-shell .cm-magnet-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; }
+.communaute-shell .cm-magnet {
+  padding: 18px 30px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--foreground);
+  font: inherit; font-weight: 600; font-size: 15px;
+  cursor: pointer;
+  box-shadow: var(--shadow-pill);
+  transition: background .3s ease, color .3s ease, box-shadow .3s ease;
+  will-change: transform;
+}
+.communaute-shell .cm-magnet:hover {
+  background: var(--wine-grad);
+  color: var(--card);
+  box-shadow: var(--shadow-soft);
+}
+
+/* ---------- 07. CTA final ---------- */
+.communaute-shell .cm-cta { text-align: center; padding-bottom: 140px; }
+.communaute-shell .cm-cta-title {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(36px, 6vw, 72px); font-weight: 500; line-height: 1.08;
+  letter-spacing: -0.02em; color: var(--foreground); margin: 0 0 34px;
+}
+.communaute-shell .cm-cta-title em { font-style: italic; color: var(--wine); }
+.communaute-shell .cm-cta-btn { font-size: 16px; padding: 1.1rem 2.2rem; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1000px) {
+  .communaute-shell .cm-testi-grid { grid-template-columns: 1fr; }
+  .communaute-shell .cm-stats-grid { grid-template-columns: repeat(2, 1fr); gap: 40px 20px; }
+}
+@media (max-width: 760px) {
+  .communaute-shell .cm-section { padding: 60px 0; }
+  .communaute-shell .cm-hero { padding-top: 96px; }
+  .communaute-shell .cm-dark { padding: 64px 1.25rem; }
+  .communaute-shell .cm-glow { display: none; } /* pas de souris à suivre sur tactile */
+}

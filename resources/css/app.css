@@ -1,0 +1,58 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* Le preflight de Tailwind ne met PAS cursor:pointer par défaut sur les
+   boutons/éléments cliquables. On force ce comportement globalement pour
+   que TOUT élément interactif du site (bouton, action Livewire, lien,
+   case à cocher, sélecteur, label associé à un champ) affiche bien la
+   main au survol, où qu'il soit dans l'application. */
+button:not(:disabled),
+[type="button"]:not(:disabled),
+[type="submit"]:not(:disabled),
+[type="reset"]:not(:disabled),
+[role="button"]:not(:disabled),
+[wire\:click]:not(:disabled),
+a[href],
+label[for],
+select,
+input[type="checkbox"],
+input[type="radio"] {
+    cursor: pointer;
+}
+
+button:disabled,
+[type="button"]:disabled,
+[type="submit"]:disabled,
+[wire\:click]:disabled {
+    cursor: not-allowed;
+}
+
+
+
+  :root {
+  --spacing: 0.25rem;
+    --bg: #fbf6f0;
+    --card: #fffdfb;
+    --foreground: #2a1a1c;
+    --muted: #8a6a6a;
+    --wine: #8a1d2b;
+    --wine-deep: #5a1019;
+    --border: #ead9d4;
+    --shadow-pill: 0 10px 30px -12px rgba(120, 30, 40, 0.25);
+    --shadow-soft: 0 20px 60px -20px rgba(120, 30, 40, 0.35);
+    --wine-grad: linear-gradient(135deg, #9a2334, #5a1019);
+  }/*
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Hanken Grotesk", system-ui, sans-serif;
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+  }*/

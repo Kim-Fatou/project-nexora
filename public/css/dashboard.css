@@ -1,0 +1,167 @@
+/* ============================================================
+   NEXORA — Dashboards (User & Admin), esprit Vercel :
+   sidebar fixe, topbar breadcrumb, grille de cartes à bordures
+   fines, tableaux épurés. Palette Nexora conservée.
+   ============================================================ */
+
+.dash-shell {
+  --bg: #fbf6f0;
+  --card: #fffdfb;
+  --foreground: #2a1a1c;
+  --muted: #8a6a6a;
+  --wine: #8a1d2b;
+  --wine-deep: #5a1019;
+  --border: #ead9d4;
+  --shadow-pill: 0 10px 30px -12px rgba(120, 30, 40, 0.25);
+  --shadow-soft: 0 20px 60px -20px rgba(120, 30, 40, 0.35);
+  --wine-grad: linear-gradient(135deg, #9a2334, #5a1019);
+
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--foreground);
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ---------- Sidebar ---------- */
+.dash-shell .dash-sidebar {
+  position: sticky; top: 0; height: 100vh;
+  border-right: 1px solid var(--border);
+  padding: 24px 18px;
+  display: flex; flex-direction: column;
+  background: var(--card);
+}
+.dash-shell .dash-logo { display: flex; align-items: center; gap: 10px; padding: 0 6px 24px; }
+.dash-shell .dash-logo img { height: 26px; width: auto; }
+
+.dash-shell .dash-nav { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.dash-shell .dash-nav-group { margin-top: 20px; }
+.dash-shell .dash-nav-label {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); padding: 0 12px 8px;
+}
+.dash-shell .dash-nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 10px;
+  font-size: 13.5px; font-weight: 500; color: var(--muted);
+  text-decoration: none;
+  transition: background .18s ease, color .18s ease;
+}
+.dash-shell .dash-nav-item:hover { background: rgba(138,29,43,0.06); color: var(--foreground); }
+.dash-shell .dash-nav-item.is-active {
+  background: rgba(138,29,43,0.1); color: var(--wine); font-weight: 700;
+}
+.dash-shell .dash-nav-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+.dash-shell .dash-sidebar-foot {
+  border-top: 1px solid var(--border); padding-top: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.dash-shell .dash-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--wine-grad); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 12.5px; flex-shrink: 0;
+}
+.dash-shell .dash-sidebar-foot-name { font-size: 12.5px; font-weight: 600; }
+.dash-shell .dash-sidebar-foot-sub { font-size: 11px; color: var(--muted); }
+
+/* ---------- Contenu principal ---------- */
+.dash-shell .dash-main { padding: 28px 36px 60px; min-width: 0; }
+
+.dash-shell .dash-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-bottom: 22px; margin-bottom: 26px; border-bottom: 1px solid var(--border);
+}
+.dash-shell .dash-breadcrumb { font-size: 13px; color: var(--muted); }
+.dash-shell .dash-breadcrumb strong { color: var(--foreground); font-weight: 700; }
+.dash-shell .dash-topbar-actions { display: flex; align-items: center; gap: 10px; }
+
+.dash-shell .dash-page-title {
+  font-family: "Fraunces", Georgia, serif; font-weight: 500;
+  font-size: 28px; letter-spacing: -0.02em; margin: 0 0 4px;
+}
+.dash-shell .dash-page-sub { color: var(--muted); font-size: 14px; margin: 0 0 28px; }
+
+/* ---------- Grille de cartes ---------- */
+.dash-shell .dash-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; margin-bottom: 24px; }
+.dash-shell .dash-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+  padding: 22px 24px;
+}
+.dash-shell .dash-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.dash-shell .dash-card-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.dash-shell .dash-card-link { font-size: 12.5px; color: var(--wine); font-weight: 600; text-decoration: none; }
+
+/* Cartes statistiques (chiffre + variation) */
+.dash-shell .col-span-3 { grid-column: span 3; }
+.dash-shell .col-span-4 { grid-column: span 4; }
+.dash-shell .col-span-6 { grid-column: span 6; }
+.dash-shell .col-span-8 { grid-column: span 8; }
+.dash-shell .col-span-12 { grid-column: span 12; }
+
+.dash-shell .stat-num { font-family: "Fraunces", Georgia, serif; font-size: 30px; font-weight: 600; }
+.dash-shell .stat-delta { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; margin-left: 8px; }
+.dash-shell .stat-delta.up { color: #1e8a4c; }
+.dash-shell .stat-delta.down { color: #a3273a; }
+
+/* Petit graphique en barres (esprit sparkline Vercel) */
+.dash-shell .mini-bars { display: flex; align-items: flex-end; gap: 4px; height: 44px; margin-top: 14px; }
+.dash-shell .mini-bars span { flex: 1; background: var(--wine-grad); border-radius: 3px 3px 0 0; opacity: .85; transition: height .6s cubic-bezier(.22,1,.36,1); }
+
+/* Tableaux */
+.dash-shell table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.dash-shell thead th {
+  text-align: left; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); font-weight: 700; padding: 0 10px 10px; border-bottom: 1px solid var(--border);
+}
+.dash-shell tbody td { padding: 12px 10px; border-bottom: 1px solid var(--border); }
+.dash-shell tbody tr:last-child td { border-bottom: none; }
+.dash-shell .table-avatar {
+  width: 26px; height: 26px; border-radius: 50%; background: var(--wine-grad); color: #fff;
+  display: inline-flex; align-items: center; justify-content: center; font-size: 10.5px; font-weight: 700; margin-right: 8px; vertical-align: middle;
+}
+.dash-shell .badge { display: inline-flex; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+.dash-shell .badge-green { background: rgba(30,138,76,0.12); color: #1e8a4c; }
+.dash-shell .badge-amber { background: rgba(200,140,20,0.12); color: #a3721a; }
+.dash-shell .badge-red { background: rgba(163,39,58,0.12); color: #a3273a; }
+.dash-shell .badge-wine { background: rgba(138,29,43,0.1); color: var(--wine); }
+
+/* Boutons */
+.dash-shell .btn-dash-primary {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--wine-grad); color: #fff; border: none;
+  padding: 9px 16px; border-radius: 10px; font: inherit; font-size: 13px; font-weight: 600;
+  cursor: pointer; text-decoration: none;
+}
+.dash-shell .btn-dash-ghost {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--card); color: var(--foreground); border: 1px solid var(--border);
+  padding: 9px 16px; border-radius: 10px; font: inherit; font-size: 13px; font-weight: 600;
+  cursor: pointer; text-decoration: none;
+}
+
+/* ---------- Barre de progression de niveau ---------- */
+.dash-shell .level-track { height: 8px; border-radius: 999px; background: var(--border); overflow: hidden; margin: 12px 0; }
+.dash-shell .level-fill { height: 100%; background: var(--wine-grad); border-radius: 999px; transition: width 1s cubic-bezier(.22,1,.36,1); }
+
+/* ---------- Verrou Premium (à activer par la logique dynamique, voir prompt antigravity) ---------- */
+.dash-shell .premium-locked { position: relative; overflow: hidden; }
+.dash-shell .premium-locked > *:not(.premium-overlay) { filter: blur(5px); pointer-events: none; user-select: none; }
+.dash-shell .premium-overlay {
+  position: absolute; inset: 0; z-index: 5;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  background: rgba(251,246,240,0.55); backdrop-filter: blur(2px);
+  text-align: center; padding: 20px; border-radius: inherit;
+}
+.dash-shell .premium-overlay-ic { font-size: 26px; }
+.dash-shell .premium-overlay h4 { font-size: 15px; font-weight: 700; margin: 0; }
+.dash-shell .premium-overlay p { font-size: 12.5px; color: var(--muted); margin: 0; max-width: 260px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1000px) {
+  .dash-shell { grid-template-columns: 1fr; }
+  .dash-shell .dash-sidebar { position: relative; height: auto; }
+  .dash-shell .col-span-3, .dash-shell .col-span-4, .dash-shell .col-span-6, .dash-shell .col-span-8 { grid-column: span 12; }
+}

@@ -1,0 +1,236 @@
+/* ============================================================
+   NEXORA — Page À propos, inspirée du style éditorial de
+   Locomotive.ca : typographie massive, blocs de couleur
+   contrastés (crème / bordeaux sombre), sections indexées,
+   révélées progressivement au scroll.
+   Réutilise les variables de acceuil.css (--bordeaux, --cream,
+   --nav-offset, --container-pad...) pour rester cohérent avec
+   le reste du site.
+   ============================================================ */
+
+.propos-shell { padding-bottom: 0; }
+
+/* ---------- Structure commune à toutes les sections ---------- */
+.po-section {
+  position: relative;
+  z-index: 1;
+  width: min(1360px, calc(100% - 2 * var(--container-pad)));
+  margin-inline: auto;
+  padding: 100px 0;
+}
+.po-section:first-of-type { padding-top: calc(var(--nav-offset) + 60px); }
+
+/* Petit numéro d'index façon Locomotive, en haut de chaque section */
+.po-index {
+  display: block;
+  font-size: 13px; font-weight: 700; letter-spacing: 0.3em;
+  color: var(--bordeaux); opacity: 0.55;
+  margin-bottom: 24px;
+}
+.po-index-dark { color: var(--cream); opacity: 0.6; }
+
+/* Titres partagés */
+.po-title-lg {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(32px, 5vw, 58px);
+  font-weight: 500; line-height: 1.08; letter-spacing: -0.02em;
+  margin: 0 0 28px;
+  color: var(--ink);
+}
+.po-title-lg em { font-style: italic; color: var(--bordeaux); }
+
+/* Animation de révélation au scroll (déclenchée par propos.js via
+   IntersectionObserver, en ajoutant la classe .is-visible) */
+[data-po-reveal] {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1);
+}
+[data-po-reveal].is-visible { opacity: 1; transform: translateY(0); }
+
+/* ============================================================
+   SECTION 1 — HERO
+   ============================================================ */
+.po-hero { text-align: center; padding-bottom: 60px; }
+.po-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12.5px; font-weight: 700; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--bordeaux);
+  margin-bottom: 28px;
+}
+.po-hero-title {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(44px, 8vw, 96px);
+  font-weight: 500; line-height: 1.02; letter-spacing: -0.03em;
+  color: var(--ink);
+  margin: 0 0 32px;
+}
+.po-hero-title em { font-style: italic; color: var(--bordeaux); }
+.po-strike { position: relative; color: var(--muted); }
+.po-strike::after {
+  content: ""; position: absolute; left: -2%; right: -2%; top: 52%;
+  height: 3px; background: var(--bordeaux); transform: rotate(-2deg);
+  border-radius: 2px;
+}
+.po-hero-lead {
+  max-width: 640px; margin: 0 auto; color: var(--muted);
+  font-size: 18px; line-height: 1.7;
+}
+.po-scroll-cue {
+  margin: 56px auto 0; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: var(--muted); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+}
+.po-scroll-cue span {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--bordeaux), transparent);
+  animation: po-scroll-move 1.8s ease-in-out infinite;
+}
+@keyframes po-scroll-move { 0%,100% { transform: scaleY(1); opacity: .4; } 50% { transform: scaleY(1.3); opacity: 1; } }
+
+/* ============================================================
+   Sections "sombres" plein écran (contraste fort à la Locomotive)
+   ============================================================ */
+.po-dark {
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding: 120px var(--container-pad);
+  background: var(--gradient-bordeaux), var(--bordeaux-deep);
+  background-blend-mode: overlay;
+  color: var(--cream);
+}
+.po-statement {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(28px, 4.4vw, 52px);
+  font-weight: 500; line-height: 1.2; letter-spacing: -0.015em;
+  max-width: 1000px;
+  color: var(--cream);
+}
+.po-statement em { font-style: italic; color: oklch(0.85 0.08 40); }
+.po-statement-sub {
+  max-width: 620px; margin-top: 28px;
+  color: oklch(0.92 0.02 60 / 0.75);
+  font-size: 16.5px; line-height: 1.7;
+}
+
+/* ============================================================
+   SECTION 3 — VISION
+   ============================================================ */
+.po-vision-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 60px;
+  align-items: start;
+}
+.po-vision-text p {
+  color: var(--muted); font-size: 16.5px; line-height: 1.75;
+  margin: 0 0 20px;
+}
+.po-vision-text p:last-child { margin-bottom: 0; }
+
+/* ============================================================
+   SECTION 4 — PILIERS (liste indexée, pas des cartes en grille)
+   ============================================================ */
+.po-pillars-title { margin-bottom: 56px; }
+.po-pillar-row {
+  display: flex; align-items: center; gap: 32px;
+  padding: 40px 0;
+  border-top: 1px solid oklch(0.32 0.11 18 / 0.14);
+  transition: padding-left .4s cubic-bezier(.22,1,.36,1), background .4s ease;
+}
+.po-pillar-row:last-child { border-bottom: 1px solid oklch(0.32 0.11 18 / 0.14); }
+.po-pillar-row:hover { padding-left: 16px; background: oklch(1 0 0 / 0.25); border-radius: 20px; }
+.po-pillar-num {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 15px; font-weight: 600; color: var(--bordeaux);
+  opacity: 0.5; flex-shrink: 0; width: 40px;
+}
+.po-pillar-body { flex: 1; min-width: 0; }
+.po-pillar-body h3 {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(22px, 2.6vw, 30px); font-weight: 500;
+  color: var(--ink); margin: 0 0 8px;
+}
+.po-pillar-body p { color: var(--muted); font-size: 15px; line-height: 1.6; max-width: 640px; margin: 0; }
+.po-pillar-icon { font-size: 34px; flex-shrink: 0; opacity: 0.85; }
+
+/* ============================================================
+   SECTION 5 — PARCOURS (étapes numérotées)
+   ============================================================ */
+.po-journey-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px;
+}
+.po-step {
+  padding: 32px 24px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, oklch(1 0 0 / 0.5), oklch(1 0 0 / 0.22));
+  border: 1px solid oklch(1 0 0 / 0.5);
+}
+.po-step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--gradient-bordeaux); color: var(--cream);
+  font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 17px;
+  margin-bottom: 20px;
+}
+.po-step h3 { font-size: 17px; font-weight: 700; color: var(--ink); margin: 0 0 8px; }
+.po-step p { font-size: 14px; color: var(--muted); line-height: 1.55; margin: 0; }
+
+/* ============================================================
+   SECTION 6 — CHIFFRES CLÉS
+   ============================================================ */
+.po-stats-title { color: var(--cream); text-align: center; }
+.po-stats-title em { color: oklch(0.85 0.08 40); }
+.po-stats-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+  text-align: center; margin-top: 20px;
+}
+.po-stat { display: flex; flex-direction: column; align-items: center; }
+.po-stat-num {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(40px, 5vw, 68px); font-weight: 600; line-height: 1;
+  color: var(--cream);
+}
+.po-stat-plus {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(24px, 3vw, 36px); color: oklch(0.85 0.08 40);
+  margin-left: 2px;
+}
+.po-stat-label {
+  margin-top: 12px; font-size: 12.5px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: oklch(0.92 0.02 60 / 0.65);
+}
+
+/* ============================================================
+   SECTION 7 — CTA FINAL
+   ============================================================ */
+.po-cta { text-align: center; padding-bottom: 140px; }
+.po-cta-title {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(34px, 5.5vw, 64px); font-weight: 500; line-height: 1.08;
+  letter-spacing: -0.02em; color: var(--ink); margin: 0 0 20px;
+}
+.po-cta-title em { font-style: italic; color: var(--bordeaux); }
+.po-cta-lead { color: var(--muted); font-size: 17px; margin: 0 0 36px; }
+.po-cta-actions { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.po-cta-btn { font-size: 15.5px; padding: 1rem 2rem; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1100px) {
+  .po-journey-grid { grid-template-columns: repeat(2, 1fr); }
+  .po-stats-grid { grid-template-columns: repeat(2, 1fr); gap: 40px 20px; }
+  .po-vision-grid { grid-template-columns: 1fr; gap: 24px; }
+}
+
+@media (max-width: 760px) {
+  .po-section { padding: 64px 0; }
+  .po-section:first-of-type { padding-top: calc(var(--nav-offset) + 32px); }
+  .po-dark { padding: 72px var(--container-pad); }
+  .po-pillar-row { flex-direction: column; align-items: flex-start; gap: 12px; text-align: left; }
+  .po-pillar-icon { display: none; }
+  .po-journey-grid { grid-template-columns: 1fr; }
+  .po-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .po-cta-actions { flex-direction: column; align-items: stretch; }
+}
